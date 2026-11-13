@@ -203,3 +203,10 @@ test('面板接口：补发接口在，白名单外的群拒绝、名单内的�
   assert.equal(sent[0][0], 'group:90000001')
   assert.equal(existsSync(file), true)
 })
+
+
+test('new voice estimates never reuse timings from another backend',()=>{
+  const history=[{ok:true,seconds:40,voice:'previous-backend'}]
+  assert.doesNotMatch(studio.estimateNote(history,'current-backend'),/一两分钟|最近一首/)
+  assert.match(studio.estimateNote([...history,{ok:true,seconds:360,voice:'current-backend'}],'current-backend'),/6 分钟/)
+})

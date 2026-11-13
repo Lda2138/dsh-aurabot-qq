@@ -405,9 +405,9 @@ export function createSongLedger({ file, log } = {}) {
 }
 
 /** 做好了直接发语音；有实测就报实测，不再拍脑袋说「两三分钟」。 */
-export function estimateNote(history = []) {
+export function estimateNote(history = [], voice = '') {
   const seconds = history
-    .filter((h) => h?.ok && Number(h.seconds) > 0)
+    .filter((h) => h?.ok && Number(h.seconds) > 0 && (!voice || h.voice === voice))
     .slice(0, 3)
     .map((h) => Number(h.seconds))
   if (!seconds.length) return '做好了直接发语音条，具体要多久看这台机器忙不忙'
@@ -1034,7 +1034,7 @@ export function createSongStudio({ getConfig, log, sendVoiceFile, sendText, onSu
     persist(true)
     const ahead = queue.length - 1 + (current ? 1 : 0)
     pump()
-    return { ok: true, message: `开始准备「${song || basename(file || '')}」${ahead ? `（前面还有 ${ahead} 首）` : ''}，${estimateNote(history)}` }
+    return { ok: true, message: `开始准备「${song || basename(file || '')}」${ahead ? `（前面还有 ${ahead} 首）` : ''}，${estimateNote(history, voice || c.voice || '')}` }
   }
 
   /** 待补发：做成但没确认发出的成品（以及热重载打断、没走完的）。 */

@@ -744,7 +744,7 @@ export function apply(ctx) {
     return {
       ok: true,
       version: VERSION,
-      behaviorRevision: '2026-11-14-private-voice-v32',
+      behaviorRevision: '2026-11-14-local-song-v33',
       outgoingVoiceScope: 'owners-and-family-only',
       apiVersion: API_VERSION,
       config: publicConfig(cfg),
